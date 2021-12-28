@@ -1,4 +1,4 @@
-# rmb-napredni-zadatak
+# rma-napredni-zadatak
 Napredni zadatak za razvoj mobilnih aplikacija u Flutteru.
 
 - Povezivanje na backend (backend će biti deployan na net sa specifikacijama u graphQLu, svi dijele istu bazu) i definiranje servisa za dohvaćanje podataka
