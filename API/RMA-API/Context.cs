@@ -7,7 +7,7 @@ namespace RMA_API.Context
 {
   public class TodoContext : DbContext
   {
-    public DbSet<TodoItem>? TodoItems { get; set; }
+    public DbSet<TodoItem> TodoItems { get; set; }
     public IConfiguration Configuration { get; }
 
     public TodoContext(IConfiguration configuration)

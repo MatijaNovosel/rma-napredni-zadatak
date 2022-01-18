@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RMA_API.Models;
+using RMA_API.Context;
 
 namespace RMA_API.Controllers
 {
@@ -7,15 +8,17 @@ namespace RMA_API.Controllers
   [Route("")]
   public class TodoController : ControllerBase
   {
-    [HttpGet]
-    public IEnumerable<TodoItem> Get()
+    protected readonly TodoContext _dbContext;
+
+    public TodoController(TodoContext dbContext)
     {
-      return Enumerable.Range(1, 5).Select(index => new TodoItem
-      {
-        Id = index,
-        Description = $"Todo item {index}"
-      })
-      .ToArray();
+      _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
+
+    [HttpGet]
+    public List<TodoItem> Get()
+    {
+      return _dbContext.TodoItems.ToList();
     }
   }
 }
