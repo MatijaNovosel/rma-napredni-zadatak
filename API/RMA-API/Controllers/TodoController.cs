@@ -5,7 +5,7 @@ namespace RMA_API.Controllers
 {
   [ApiController]
   [Route("")]
-  public class WeatherForecastController : ControllerBase
+  public class TodoController : ControllerBase
   {
     [HttpGet]
     public IEnumerable<TodoItem> Get()
@@ -13,8 +13,7 @@ namespace RMA_API.Controllers
       return Enumerable.Range(1, 5).Select(index => new TodoItem
       {
         Id = index,
-        Description = $"Todo item {index}",
-        CreatedAt = DateTime.Now.AddDays(index)
+        Description = $"Todo item {index}"
       })
       .ToArray();
     }
