@@ -20,5 +20,16 @@ namespace RMA_API.Controllers
     {
       return _dbContext.TodoItems.ToList();
     }
+
+    [HttpPost]
+    public async Task<int> Create(TodoItemDto todoItem)
+    {
+      var newItem = new TodoItem() {
+        CreatedAt = DateTime.Now,
+        Description = todoItem.Description
+      };
+      await _dbContext.AddAsync(newItem);
+      return newItem.Id;
+    }
   }
 }
