@@ -6,7 +6,6 @@ Napredni zadatak za razvoj mobilnih aplikacija u Flutteru.
 - Definiranje CRUD metoda u servisu
 - Dinamičko generiranje sadržaja uz pomoć FutureBuildera
 - Dodatak uređivanja todo stavki
-- Stvaranje novog ekrana gdje će biti izbrisane todo stavke i navigacija
 - Korištenje SharedPreferences za temu aplikacije (dark ili light)
 - Implementiranje gestura za brisanje stavke (swipe left ili swipe right)
 - Implementacija prijevoda (i18n)
