@@ -19,10 +19,7 @@ namespace RMA_API.Context
     {
       if (!optionsBuilder.IsConfigured)
       {
-        optionsBuilder.UseMySql(
-          Configuration["ConnectionString"],
-          Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.32-mysql")
-        );
+        optionsBuilder.UseSqlServer(Configuration["ConnectionString"]);
       }
     }
   }

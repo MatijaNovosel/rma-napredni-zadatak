@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TodoContext>(options =>
 {
-  options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+  options.UseSqlServer(connectionString);
 });
 
 var app = builder.Build();
