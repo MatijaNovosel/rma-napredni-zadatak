@@ -22,28 +22,29 @@ namespace RMA_API.Controllers
     }
 
     [HttpPost]
-    public async Task<int> Create(TodoItemDto todoItem)
+    public async Task<ActionResult<int>> Create(TodoItemDto todoItem)
     {
       var newItem = new TodoItem()
       {
         CreatedAt = DateTime.Now,
-        Description = todoItem.Description
+        Text = todoItem.Text,
+        Done = false
       };
       await _dbContext.TodoItems.AddAsync(newItem);
       await _dbContext.SaveChangesAsync();
-      return newItem.Id;
+      return Ok(newItem.Id);
     }
 
-    [HttpDelete]
-    public async Task<ActionResult> Delete(int id)
+    [HttpPost("mark-as-done")]
+    public async Task<ActionResult> MarkAsDone(int id)
     {
       var todoItem = _dbContext.TodoItems.FirstOrDefault(item => item.Id == id);
 
       if (todoItem != null)
       {
-        _dbContext.TodoItems.Remove(todoItem);
+        todoItem.Done = true;
         await _dbContext.SaveChangesAsync();
-        return Ok($"Todo item with the id of {id} deleted!");
+        return Ok($"Todo item with the id of {id} marked as done!");
       }
       else
       {
