@@ -9,15 +9,13 @@ Future<List<TodoItem>> getTodoItems() async {
   try {
     var response = await dio.get(url);
 
-    print(response);
-
     for (var item in response.data) {
       data.add(
         TodoItem(
           text: item["text"],
           id: item["id"],
           done: item["done"],
-          createdAt: item["createdAt"],
+          createdAt: DateTime.parse(item["createdAt"]),
         ),
       );
     }

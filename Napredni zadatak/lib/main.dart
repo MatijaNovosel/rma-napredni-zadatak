@@ -34,50 +34,15 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
-  final List<TodoItem> _todoItems = [
-    TodoItem(
-      id: 1,
-      text: "Item 1",
-      createdAt: DateTime.now(),
-      done: false,
-    ),
-    TodoItem(
-      id: 2,
-      text: "Item 2",
-      createdAt: DateTime.now(),
-      done: false,
-    ),
-    TodoItem(
-      id: 3,
-      text: "Item 3",
-      createdAt: DateTime.now(),
-      done: false,
-    ),
-  ];
-
   final TextEditingController _textFieldController = TextEditingController();
-  final Future<List<TodoItem>> todoItems = getTodoItems();
+  final Future<List<TodoItem>> _todoItems = getTodoItems();
 
   void _addNewTodoItem(String text) {
-    setState(() {
-      _todoItems.add(
-        TodoItem(
-          id: _todoItems.length + 1,
-          text: text,
-          done: false,
-          createdAt: DateTime.now(),
-        ),
-      );
-    });
+    //
   }
 
   void _markItemAsDone(int id) {
-    TodoItem? item = _todoItems.firstWhereOrNull((element) => element.id == id);
-    if (item != null) {
-      setState(() {
-        item.done = true;
-      });
-    }
+    //
   }
 
   Future<dynamic> _displayDialog(BuildContext context) async {
@@ -120,32 +85,40 @@ class _TodoPageState extends State<TodoPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: _todoItems.isEmpty
-              ? [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
-                    child: Center(
-                      child: Text(
-                        "No todo entries found!",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+        child: FutureBuilder(
+          future: _todoItems,
+          builder: (
+            context,
+            AsyncSnapshot<List<TodoItem>> snapshot,
+          ) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              default:
+                {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<TodoItem> data = snapshot.data as List<TodoItem>;
+                    if (data.isEmpty) {
+                      return const Text("No todo items found!");
+                    } else {
+                      return ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index) => TodoItemWidget(
+                          content: data[index],
+                          onMarkAsDone: () {},
                         ),
-                      ),
-                    ),
-                  )
-                ]
-              : _todoItems
-                  .map(
-                    (todoItem) => TodoItemWidget(
-                      content: todoItem,
-                      onMarkAsDone: () {
-                        _markItemAsDone(todoItem.id);
-                      },
-                    ),
-                  )
-                  .toList(),
+                      );
+                    }
+                  }
+                }
+            }
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
