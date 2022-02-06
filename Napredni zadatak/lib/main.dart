@@ -35,14 +35,20 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
   final TextEditingController _textFieldController = TextEditingController();
-  final Future<List<TodoItem>> _todoItems = getTodoItems();
+  Future<List<TodoItem>> _todoItems = getTodoItems();
 
-  void _addNewTodoItem(String text) {
-    //
+  void _addNewTodoItem(String text) async {
+    await addTodoItem(text);
+    setState(() {
+      _todoItems = getTodoItems();
+    });
   }
 
-  void _markItemAsDone(int id) {
-    //
+  void _markItemAsDone(int id) async {
+    await markAsDone(id);
+    setState(() {
+      _todoItems = getTodoItems();
+    });
   }
 
   Future<dynamic> _displayDialog(BuildContext context) async {
@@ -105,13 +111,15 @@ class _TodoPageState extends State<TodoPage> {
                   } else {
                     List<TodoItem> data = snapshot.data as List<TodoItem>;
                     if (data.isEmpty) {
-                      return const Text("No todo items found!");
+                      return const Center(
+                        child: Text("No todo items found!"),
+                      );
                     } else {
                       return ListView.builder(
                         itemCount: data.length,
                         itemBuilder: (context, index) => TodoItemWidget(
                           content: data[index],
-                          onMarkAsDone: () {},
+                          onMarkAsDone: () => _markItemAsDone(data[index].id),
                         ),
                       );
                     }

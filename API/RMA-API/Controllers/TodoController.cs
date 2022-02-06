@@ -17,8 +17,8 @@ namespace RMA_API.Controllers
 
     [HttpGet]
     public List<TodoItem> Get()
-    {
-      return _dbContext.TodoItems.ToList();
+    {  
+      return _dbContext.TodoItems.OrderBy(item => item.CreatedAt).ToList();
     }
 
     [HttpPost]
@@ -35,7 +35,7 @@ namespace RMA_API.Controllers
       return Ok(newItem.Id);
     }
 
-    [HttpPost("mark-as-done")]
+    [HttpPost("mark-as-done/{id}")]
     public async Task<ActionResult> MarkAsDone(int id)
     {
       var todoItem = _dbContext.TodoItems.FirstOrDefault(item => item.Id == id);

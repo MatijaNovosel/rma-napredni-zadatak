@@ -29,3 +29,36 @@ Future<List<TodoItem>> getTodoItems() async {
 
   return data;
 }
+
+Future addTodoItem(String text) async {
+  var dio = Dio();
+  const url = "https://rma-api20220206133123.azurewebsites.net/";
+
+  try {
+    await dio.post(
+      url,
+      data: {
+        "text": text,
+      },
+    );
+  } catch (e) {
+    print(e);
+  } finally {
+    dio.close();
+  }
+}
+
+Future markAsDone(int id) async {
+  var dio = Dio();
+  const url = "https://rma-api20220206133123.azurewebsites.net/";
+
+  try {
+    await dio.post(
+      "$url/mark-as-done/$id",
+    );
+  } catch (e) {
+    print(e);
+  } finally {
+    dio.close();
+  }
+}

@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\matija.novosel\\Desktop\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj": {}
+    "D:\\Repositories\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\matija.novosel\\Desktop\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj": {
+    "D:\\Repositories\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\matija.novosel\\Desktop\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj",
+        "projectUniqueName": "D:\\Repositories\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj",
         "projectName": "RMA-API",
-        "projectPath": "C:\\Users\\matija.novosel\\Desktop\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj",
-        "packagesPath": "C:\\Users\\matija.novosel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\matija.novosel\\Desktop\\rma-napredni-zadatak\\API\\RMA-API\\obj\\",
+        "projectPath": "D:\\Repositories\\rma-napredni-zadatak\\API\\RMA-API\\RMA-API.csproj",
+        "packagesPath": "C:\\Users\\Matija\\.nuget\\packages\\",
+        "outputPath": "D:\\Repositories\\rma-napredni-zadatak\\API\\RMA-API\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\matija.novosel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Matija\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -77,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
