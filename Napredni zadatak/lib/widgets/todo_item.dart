@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:rma_napredni_zadatak/models/todo_item.dart';
+import 'package:intl/intl.dart';
 
-class TodoItem extends StatelessWidget {
-  final String text;
+class TodoItemWidget extends StatelessWidget {
+  final TodoItem content;
+  final VoidCallback onMarkAsDone;
 
-  const TodoItem({Key? key, required this.text}) : super(key: key);
+  const TodoItemWidget({
+    Key? key,
+    required this.content,
+    required this.onMarkAsDone,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,31 +20,30 @@ class TodoItem extends StatelessWidget {
         children: <Widget>[
           ListTile(
             title: Text(
-              text,
+              content.text,
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            leading: const Icon(Icons.notes),
+            leading: Icon(content.done ? Icons.done_all : Icons.notes),
             iconColor: Colors.blue,
-            subtitle: const Text('Added at 29.12.2021.'),
+            subtitle: Text(
+              'Added at ${DateFormat("dd.MM.yyyy. HH:mm").format(content.createdAt)}',
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              TextButton(
-                child: const Text('Remove'),
-                onPressed: () {/* ... */},
-              ),
-              const SizedBox(width: 8),
-              TextButton(
-                child: const Text('Edit'),
-                onPressed: () {/* ... */},
-              ),
-              const SizedBox(width: 8),
-            ],
-          ),
+          content.done
+              ? Container()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      child: const Text('Mark as done'),
+                      onPressed: () => onMarkAsDone(),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                ),
         ],
       ),
     );

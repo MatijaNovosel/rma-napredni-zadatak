@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rma_napredni_zadatak/todo-service.dart';
+import 'models/todo_item.dart';
 import 'widgets/todo_item.dart';
+import 'package:collection/collection.dart';
 
 void main() {
   runApp(const Main());
@@ -10,30 +13,103 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Todo app',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(title: 'Todo app'),
+      home: TodoPage(title: 'Todo app'),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+class TodoPage extends StatefulWidget {
   final String title;
 
+  const TodoPage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<TodoPage> createState() => _TodoPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final List<String> _todoItems = ["Item 1", "Item 2", "Item 3"];
+class _TodoPageState extends State<TodoPage> {
+  final List<TodoItem> _todoItems = [
+    TodoItem(
+      id: 1,
+      text: "Item 1",
+      createdAt: DateTime.now(),
+      done: false,
+    ),
+    TodoItem(
+      id: 2,
+      text: "Item 2",
+      createdAt: DateTime.now(),
+      done: false,
+    ),
+    TodoItem(
+      id: 3,
+      text: "Item 3",
+      createdAt: DateTime.now(),
+      done: false,
+    ),
+  ];
 
-  void _addNewTodoItem() {
-    //
+  final TextEditingController _textFieldController = TextEditingController();
+  final Future<List<TodoItem>> todoItems = getTodoItems();
+
+  void _addNewTodoItem(String text) {
+    setState(() {
+      _todoItems.add(
+        TodoItem(
+          id: _todoItems.length + 1,
+          text: text,
+          done: false,
+          createdAt: DateTime.now(),
+        ),
+      );
+    });
+  }
+
+  void _markItemAsDone(int id) {
+    TodoItem? item = _todoItems.firstWhereOrNull((element) => element.id == id);
+    if (item != null) {
+      setState(() {
+        item.done = true;
+      });
+    }
+  }
+
+  Future<dynamic> _displayDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add a task to your list'),
+          content: TextField(
+            controller: _textFieldController,
+            decoration: const InputDecoration(hintText: 'Enter todo item'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('ADD'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _addNewTodoItem(_textFieldController.text);
+                _textFieldController.text = "";
+              },
+            ),
+            TextButton(
+              child: const Text('CANCEL'),
+              onPressed: () {
+                _textFieldController.text = "";
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -44,13 +120,36 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _todoItems.map((todoItem) => TodoItem(text: todoItem)).toList(),
+        child: ListView(
+          children: _todoItems.isEmpty
+              ? [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Center(
+                      child: Text(
+                        "No todo entries found!",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                ]
+              : _todoItems
+                  .map(
+                    (todoItem) => TodoItemWidget(
+                      content: todoItem,
+                      onMarkAsDone: () {
+                        _markItemAsDone(todoItem.id);
+                      },
+                    ),
+                  )
+                  .toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addNewTodoItem,
+        onPressed: () => _displayDialog(context),
         tooltip: 'Add new todo item',
         child: const Icon(Icons.add),
       ),
