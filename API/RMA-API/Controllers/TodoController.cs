@@ -18,7 +18,7 @@ namespace RMA_API.Controllers
     [HttpGet]
     public List<TodoItem> Get()
     {  
-      return _dbContext.TodoItems.OrderBy(item => item.CreatedAt).ToList();
+      return _dbContext.TodoItems.OrderByDescending(item => item.CreatedAt).ToList();
     }
 
     [HttpPost]
